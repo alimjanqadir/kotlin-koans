@@ -1,8 +1,11 @@
 package ii_collections
 
-fun example9() {
-    val result = listOf(1, 2, 3, 4).fold(1, { partResult, element -> element * partResult })
+fun example9(): Int {
+    val result = listOf(1, 2, 3, 4).fold(3, { partResult, element ->
+        element * partResult
+    })
     result == 24
+    return result
 }
 
 // The same as
@@ -15,6 +18,6 @@ fun whatFoldDoes(): Int {
 fun Shop.getSetOfProductsOrderedByEachCustomer(): Set<Product> {
     // Return the set of products that were ordered by each of the customers
     return customers.fold(allOrderedProducts, { orderedByAll, customer ->
-        todoCollectionTask()
+        orderedByAll.intersect(customer.orderedProducts)
     })
 }
