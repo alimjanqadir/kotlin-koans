@@ -12,11 +12,16 @@ data class MyDate(val year: Int, val month: Int, val dayOfMonth: Int) : Comparab
 
 operator fun MyDate.rangeTo(other: MyDate): DateRange = DateRange(this, other)
 
-enum class TimeInterval(var multiplier: Int = 1) {
+enum class TimeInterval(var multiplier: Int) {
     DAY(multiplier = 1),
     WEEK(multiplier = 1),
-    YEAR(multiplier = 1)
+    YEAR(multiplier = 1);
 }
+
+class RepeatedTimeInterval(var timeInterval: TimeInterval, var times: Int)
+
+operator fun TimeInterval.times(multiplier: Int) = RepeatedTimeInterval(this, multiplier)
+
 
 class DateRange(override val start: MyDate, override val endInclusive: MyDate) : ClosedRange<MyDate>, Iterable<MyDate> {
     override fun contains(value: MyDate): Boolean = start <= value && value <= endInclusive
@@ -37,6 +42,6 @@ class DataRangeIterator(private val dateRange: DateRange) : Iterator<MyDate> {
     }
 }
 
-operator fun MyDate.plus(interval: TimeInterval): MyDate {
-    return this.addTimeIntervals(interval, interval.multiplier)
-}
+operator fun MyDate.plus(interval: TimeInterval) = this.addTimeIntervals(interval, 1)
+operator fun MyDate.plus(interval: RepeatedTimeInterval) = this.addTimeIntervals(interval.timeInterval, interval.times)
+
