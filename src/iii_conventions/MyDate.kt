@@ -1,7 +1,5 @@
 package iii_conventions
 
-import java.sql.Time
-
 data class MyDate(val year: Int, val month: Int, val dayOfMonth: Int) : Comparable<MyDate> {
     override fun compareTo(other: MyDate): Int = when {
         year != other.year -> year - other.year
@@ -12,10 +10,10 @@ data class MyDate(val year: Int, val month: Int, val dayOfMonth: Int) : Comparab
 
 operator fun MyDate.rangeTo(other: MyDate): DateRange = DateRange(this, other)
 
-enum class TimeInterval(var multiplier: Int) {
-    DAY(multiplier = 1),
-    WEEK(multiplier = 1),
-    YEAR(multiplier = 1);
+enum class TimeInterval {
+    DAY,
+    WEEK,
+    YEAR;
 }
 
 class RepeatedTimeInterval(var timeInterval: TimeInterval, var times: Int)
